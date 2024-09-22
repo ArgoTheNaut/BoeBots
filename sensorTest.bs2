@@ -1,0 +1,19 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG CRSRXY, 0,0
+DEBUG "Performing sensor scan"
+
+' All of these sensor points appear to touch multiple access
+'   points ON the board, leading TO some jittery transient behavior
+' Namely, they connect iwth both the X1 and X2 board spaces
+
+DO
+    DEBUG CRSRXY, 0, 3,
+'    "   P5 = ", BIN1 IN5,
+'    "   P7 = ", BIN1 IN7
+    "   P2 = ", BIN1 IN2,
+    "   P3 = ", BIN1 IN3,
+    "   P14 = ", BIN1 IN14,
+    "   P15 = ", BIN1 IN15
+LOOP
