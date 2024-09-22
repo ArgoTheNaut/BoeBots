@@ -1,0 +1,10 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "The LEDs connected to Pins 13 and 12 are blinking"
+
+DO
+    PULSOUT 13, 1200
+    PULSOUT 12, 1200
+    PAUSE 10
+LOOP

@@ -1,0 +1,34 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Running Centering program for Servo P12"
+
+highTime VAR Word    ' converts us arguments to pulsout-time arguments
+highTime = 2
+
+
+' servo base data
+reverseMicros VAR WORD
+neutralMicros VAR Word
+forwardMicros VAR Word
+
+reverseMicros = 1300
+neutralMicros = 1500
+forwardMicros = 1700
+
+' transforms into pulsout space
+rvsDrive VAR Word
+neuDrive VAR Word
+fwdDrive VAR Word
+
+rvsDrive = reverseMicros / highTime
+neuDrive = neutralMicros / highTime
+fwdDrive = forwardMicros / highTime
+
+
+' MAIN PROGRAM EXECUTION
+DO
+    PULSOUT 13, fwdDrive
+    PAUSE 20
+LOOP
+
