@@ -1,0 +1,44 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Running the bot forward then backward for a bit"
+
+highTime VAR Word    ' converts us arguments to pulsout-time arguments
+highTime = 2
+
+
+' servo base data
+reverseMicros VAR Word
+neutralMicros VAR Word
+forwardMicros VAR Word
+
+reverseMicros = 1300
+neutralMicros = 1500
+forwardMicros = 1700
+
+' transforms into pulsout space
+rvsDrive VAR Word
+neuDrive VAR Word
+fwdDrive VAR Word
+
+rvsDrive = reverseMicros / highTime
+neuDrive = neutralMicros / highTime
+fwdDrive = forwardMicros / highTime
+
+
+
+i VAR Word
+' MAIN PROGRAM EXECUTION
+FOR i = 1 TO 200
+    PULSOUT 13, fwdDrive
+    PULSOUT 12, rvsDrive
+    PAUSE 20
+NEXT
+
+FOR i = 1 TO 200
+    PULSOUT 12, fwdDrive
+    PULSOUT 13, rvsDrive
+    PAUSE 20
+NEXT
+
+END
