@@ -29,6 +29,8 @@ void setup() {
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(A9, OUTPUT);
   pinMode(D10, OUTPUT);
+  pinMode(D3, OUTPUT);
+  pinMode(D4, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   
 }
@@ -36,6 +38,8 @@ void setup() {
 void set(int setting){
   digitalWrite(A9, setting);
   digitalWrite(D10, setting);
+  digitalWrite(D3, setting);
+  digitalWrite(D4, setting);
   digitalWrite(LED_BUILTIN, setting);
 }
 
@@ -45,12 +49,9 @@ void lo(int dur=20){set(LOW);delay(dur);}
 
 // the loop function runs over and over again forever
 void loop() {
-  hi(200);
-  lo(200);
-  hi(200);
-  lo(200);
-  hi(200);
-  lo(200);
-  hi(200);
+  for(int i=200; i<2000; i+=200){
+    hi(i);
+    lo(i);
+  }
   lo(1000);
 }
