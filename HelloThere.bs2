@@ -1,0 +1,7 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Hello there!  Ah General Stampy..."
+DEBUG 10
+DEBUG 13
+END
