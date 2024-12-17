@@ -4,7 +4,6 @@
 highTime VAR Word    ' converts us arguments to pulsout-time arguments
 highTime = 2
 
-
 ' servo base data
 reverseMicros VAR Word
 neutralMicros VAR Word
@@ -26,28 +25,10 @@ neuDrive = neutralMicros / highTime
 fwdDrive = forwardMicros / highTime
 
 
-'cycles VAR Word
-'cycles = 50
-'i VAR Word
-' MAIN PROGRAM EXECUTION
-'FOR i = 1 TO cycles
-'    PULSOUT 13, fwdDrive
-'    PULSOUT 12, rvsDrive
-'    PAUSE 20
-'NEXT
-
-'FOR i = 1 TO cycles
-'    PULSOUT 12, fwdDrive
-'    PULSOUT 13, rvsDrive
-'    PAUSE 20
-'NEXT
-
+' Main Sequence
+DEBUG "Relay Powering On"
 
 DO
-'    left = IN2 - IN3
-'    right = IN14 - IN15
-
-
     DEBUG CR, BIN1 IN2, BIN1 IN3, BIN1 IN14, BIN1 IN15
 
     L_FWD VAR Bit
@@ -74,55 +55,6 @@ DO
     IF(R_BCK) THEN
         PULSOUT 12, rvsDrive
     ENDIF
-
-    '" ", 'CRSRXY, 0, 3,
-    'DEBUG "P2 = ", BIN1 IN2,
-    '"   P3 = ", BIN1 IN3,
-    '"   P14 = ", BIN1 IN14,
-    '"   P15 = ", BIN1 IN15,
-    '"   L = ", left,
-    '"   R = ", right, CR, LF
-
-'    left = neutralMicros + (left * deltaMicros)
-'    right = neutralMicros - (right * deltaMicros)
-
-'    left = left / highTime
-'    right = right / highTime
-
-'    shortest = left MIN right
- '   waitDelta = (left - shortest) + (right - shortest)
-
-'    DEBUG " L", DEC left, " R", DEC right
-    'DEBUG " short", DEC shortest, " wd", DEC waitDelta
-
-'    PULSOUT 13, left
- '   PULSOUT 12, right
-    'HIGH 13
-    'HIGH 12
-    'PULSOUT 11, shortest
-
-    'IF (left > shortest) THEN
-    '    ' all good to keep it high
-    'ELSE
-    '    LOW 13
-    '    DEBUG " endL"
-    'ENDIF
-    '
-    'IF (right > shortest) THEN
-    '    ' all good to keep it high
-    'ELSE
-    '    LOW 12
-    '    DEBUG " endR"
-    'ENDIF
-    '
-    '' run it a bit longer to complete the longer time
-    'IF(waitDelta > 0) THEN
-    '    PULSOUT 11, waitDelta
-    'ENDIF
-
-    ' power down both clocks at the end of the cycle
-'    LOW 13
-'    LOW 12
 
     PAUSE 20
 LOOP
