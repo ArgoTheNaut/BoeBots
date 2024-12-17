@@ -8,7 +8,7 @@ highTime = 2
 
 
 ' servo base data
-reverseMicros VAR WORD
+reverseMicros VAR Word
 neutralMicros VAR Word
 forwardMicros VAR Word
 
@@ -28,7 +28,7 @@ fwdDrive = forwardMicros / highTime
 
 ' MAIN PROGRAM EXECUTION
 DO
-    PULSOUT 13, fwdDrive
+    PULSOUT 13, neuDrive
+    PULSOUT 12, neuDrive
     PAUSE 20
 LOOP
-
