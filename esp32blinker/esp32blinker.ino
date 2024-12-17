@@ -27,19 +27,19 @@
 // the setup function runs once when you press reset or power the board
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
-  pinMode(A9, OUTPUT);
-  pinMode(D10, OUTPUT);
+  pinMode(D0, OUTPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
   pinMode(D3, OUTPUT);
-  pinMode(D4, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   
 }
 
 void set(int setting){
-  digitalWrite(A9, setting);
-  digitalWrite(D10, setting);
+  digitalWrite(D0, setting);
+  digitalWrite(D1, setting);
+  digitalWrite(D2, setting);
   digitalWrite(D3, setting);
-  digitalWrite(D4, setting);
   digitalWrite(LED_BUILTIN, setting);
 }
 
@@ -47,11 +47,74 @@ void hi(int dur=20){set(HIGH);delay(dur);}
 void lo(int dur=20){set(LOW);delay(dur);}
 
 
+void left(int dur=20){
+  digitalWrite(D0, LOW);
+  digitalWrite(D1, HIGH);
+  digitalWrite(D2, HIGH);
+  digitalWrite(D3, LOW);
+  printf("Forward\n");
+  delay(dur);
+}
+
+void right(int dur=20){
+  digitalWrite(D0, 1);
+  digitalWrite(D1, 0);
+  digitalWrite(D2, 0);
+  digitalWrite(D3, 1);
+  printf("Back\n");
+  delay(dur);
+}
+
+void fwd(int dur=20){
+  digitalWrite(D0, LOW);
+  digitalWrite(D1, HIGH);
+  digitalWrite(D2, LOW);
+  digitalWrite(D3, HIGH);
+  printf("Left\n");
+  delay(dur);
+}
+
+void back(int dur=20){
+  digitalWrite(D0, HIGH);
+  digitalWrite(D1, LOW);
+  digitalWrite(D2, HIGH);
+  digitalWrite(D3, LOW);
+  printf("Right\n");
+  delay(dur);
+}
+
+void alternator(){
+
+  int min = 10000;
+  int max = 12000;
+  int steps = 2;
+
+  for(int i=min; i<max; i+=(max-min)/steps ){
+    // hi(i);
+    // lo(i);
+    fwd(i);
+    lo(2000);
+
+    back(i);
+    lo(2000);
+
+    left(i);
+    lo(2000);
+
+    right(i);
+    lo(2000);
+  }
+}
+
+void staticSet(int d0, int d1, int d2, int d3){
+  digitalWrite(D0, d0);
+  digitalWrite(D1, d1);
+  digitalWrite(D2, d2);
+  digitalWrite(D3, d3);
+}
+
 // the loop function runs over and over again forever
 void loop() {
-  for(int i=200; i<2000; i+=200){
-    hi(i);
-    lo(i);
-  }
-  lo(1000);
+  alternator();
+  // staticSet(0,0,0,0);
 }
