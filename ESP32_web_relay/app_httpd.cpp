@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#include <Arduino.h>
 #include "esp_http_server.h"
 #include "esp_timer.h"
 #include "esp_camera.h"
@@ -420,7 +421,11 @@ static esp_err_t motor_handler(httpd_req_t *req){
     free(buf);
 
     printf("Received motor request: LF:%s RF:%s LB:%s RB:%s\n", LF, RF, LB, RB);
-    // todo
+
+    digitalWrite(D0, RB[0]=="1"[0]);
+    digitalWrite(D1, RF[0]=="1"[0]);
+    digitalWrite(D2, LB[0]=="1"[0]);
+    digitalWrite(D3, LF[0]=="1"[0]);
 
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
     return httpd_resp_send(req, NULL, 0);
