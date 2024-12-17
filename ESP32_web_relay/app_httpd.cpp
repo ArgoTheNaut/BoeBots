@@ -398,6 +398,34 @@ static esp_err_t parse_get(httpd_req_t *req, char **obuf)
     return ESP_FAIL;
 }
 
+
+static esp_err_t motor_handler(httpd_req_t *req){
+    char *buf = NULL;
+    char LF[32];
+    char RF[32];
+    char LB[32];
+    char RB[32];
+
+    if (parse_get(req, &buf) != ESP_OK) {
+        return ESP_FAIL;
+    }
+    if (httpd_query_key_value(buf, "LF", LF, sizeof(LF)) != ESP_OK ||
+        httpd_query_key_value(buf, "RF", RF, sizeof(RF)) != ESP_OK ||
+        httpd_query_key_value(buf, "LB", LB, sizeof(LB)) != ESP_OK ||
+        httpd_query_key_value(buf, "RB", RB, sizeof(RB)) != ESP_OK) {
+        free(buf);
+        httpd_resp_send_404(req);
+        return ESP_FAIL;
+    }
+    free(buf);
+
+    printf("Received motor request: LF:%s RF:%s LB:%s RB:%s\n", LF, RF, LB, RB);
+    // todo
+
+    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+    return httpd_resp_send(req, NULL, 0);
+}
+
 static esp_err_t cmd_handler(httpd_req_t *req)
 {
     char *buf = NULL;
@@ -559,7 +587,6 @@ static esp_err_t status_handler(httpd_req_t *req)
     p += sprintf(p, "\"dcw\":%u,", s->status.dcw);
     p += sprintf(p, "\"colorbar\":%u", s->status.colorbar);
     p += sprintf(p, ",\"led_intensity\":%u", led_duty);
-#endif
     *p++ = '}';
     *p++ = 0;
     httpd_resp_set_type(req, "application/json");
@@ -832,11 +859,17 @@ void startCameraServer(){
         .user_ctx = NULL
     };
 
+    httpd_uri_t motor_uri = {
+        .uri = "/motor",
+        .method = HTTP_GET,
+        .handler = motor_handler,
+        .user_ctx = NULL
+    };
+
     ra_filter_init(&ra_filter, 20);
 
     log_i("Starting web server on port: '%d'", config.server_port);
-    if (httpd_start(&camera_httpd, &config) == ESP_OK)
-    {
+    if (httpd_start(&camera_httpd, &config) == ESP_OK) {
         httpd_register_uri_handler(camera_httpd, &index_uri);
         httpd_register_uri_handler(camera_httpd, &cmd_uri);
         httpd_register_uri_handler(camera_httpd, &status_uri);
@@ -848,6 +881,7 @@ void startCameraServer(){
         httpd_register_uri_handler(camera_httpd, &greg_uri);
         httpd_register_uri_handler(camera_httpd, &pll_uri);
         httpd_register_uri_handler(camera_httpd, &win_uri);
+        httpd_register_uri_handler(camera_httpd, &motor_uri);
     }
 
     config.server_port += 1;
